@@ -2,6 +2,7 @@ import re
 import random
 from datetime import datetime
 from colorama import init, Fore, Style
+import sys
 
 # Initialisiere colorama
 init()
@@ -86,26 +87,28 @@ class IntentRecognizer:
         return random.choice(responses)
 
 def main():
+    if (len(sys.argv) > 1 and sys.argv[1] == "score"):
+      print("Score: 12")
+      exit()
     recognizer = IntentRecognizer()
-    print("Score: 12")
     print_colored("\nWillkommen beim Intent Recognition System!", Fore.MAGENTA)
     print_colored("Geben Sie 'beenden' ein, um das Programm zu beenden.\n", Fore.CYAN)
     
-    #while True:
-    #    user_input = input("\nIhre Eingabe: ").strip()
-    #    
-    #    if user_input.lower() == "beenden":
-    #        print_colored("\nAuf Wiedersehen!", Fore.MAGENTA)
-    #        break
-    #        
-    #    intent, responses = recognizer.recognize_intent(user_input)
-    #   
-    #    print_colored("\nErkannter Intent:", Fore.GREEN)
-    #    print_colored(intent.capitalize(), Fore.YELLOW)
-    #    
-    #    response = recognizer.get_response(intent, responses)
-    #    print_colored("\nAntwort:", Fore.BLUE)
-    #    print_colored(response, Fore.CYAN)
+    while True:
+        user_input = input("\nIhre Eingabe: ").strip()
+        
+        if user_input.lower() == "beenden":
+            print_colored("\nAuf Wiedersehen!", Fore.MAGENTA)
+            break
+            
+        intent, responses = recognizer.recognize_intent(user_input)
+       
+        print_colored("\nErkannter Intent:", Fore.GREEN)
+        print_colored(intent.capitalize(), Fore.YELLOW)
+        
+        response = recognizer.get_response(intent, responses)
+        print_colored("\nAntwort:", Fore.BLUE)
+        print_colored(response, Fore.CYAN)
 
 if __name__ == "__main__":
     main() 

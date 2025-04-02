@@ -36,7 +36,7 @@ jobs:
         flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
     - name: Calculate current score
       id: calculate-score
-      run: echo "SCORE=$(python3 main.py | grep 'Score' | cut -d ' ' -f 2)" >> "$GITHUB_OUTPUT"
+      run: echo "SCORE=$(python3 main.py score | grep 'Score' | cut -d ' ' -f 2)" >> "$GITHUB_OUTPUT"
     - name: Score badge
       uses: RubbaBoy/BYOB@v1.3.0
       with:
