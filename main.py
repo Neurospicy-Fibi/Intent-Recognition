@@ -87,7 +87,7 @@ class IntentRecognizer:
 
 def main():
     recognizer = IntentRecognizer()
-    print "Score: 30"
+    print("Score: 30")
     print_colored("\nWillkommen beim Intent Recognition System!", Fore.MAGENTA)
     print_colored("Geben Sie 'beenden' ein, um das Programm zu beenden.\n", Fore.CYAN)
     
