@@ -90,6 +90,7 @@ def main():
     if (len(sys.argv) > 1 and sys.argv[1] == "score"):
       print("Score: 12")
       exit()
+      
     recognizer = IntentRecognizer()
     print_colored("\nWillkommen beim Intent Recognition System!", Fore.MAGENTA)
     print_colored("Geben Sie 'beenden' ein, um das Programm zu beenden.\n", Fore.CYAN)
