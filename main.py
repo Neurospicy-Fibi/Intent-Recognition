@@ -4,6 +4,8 @@ from datetime import datetime
 from colorama import init, Fore, Style
 import sys
 
+from ollama import Client
+
 # Initialisiere colorama
 init()
 
@@ -12,6 +14,9 @@ def print_colored(text, color):
 
 class IntentRecognizer:
     def __init__(self):
+        self.client = Client(
+            host='http://192.168.178.141:11434'
+        )
         self.intents = {
             "greeting": {
                 "patterns": [
@@ -70,6 +75,38 @@ class IntentRecognizer:
             }
         }
 
+    def recognize_intent_with_ollama(self, text):
+        prompt = f"""Analysiere den folgenden Text und bestimme die Absicht (Intent) des Benutzers.
+        Mögliche Intents sind: greeting, weather, time, farewell, help, unknown, animal.
+        Begründe deine Antwort.
+        Text: "{text}"
+        Intent:"""
+        
+        try:
+            response = self.client.chat(model='qwen2.5', messages=[
+                {
+                    'role': 'system',
+                    'content': 'Du bist ein Intent-Erkenner.Gib in der ersten Zeile nur den Intent an und in der zweiten Zeile die Begründung.'
+                },
+                {
+                    'role': 'user',
+                    'content': prompt
+                }
+            ])
+            
+            # Extrahiere den Intent aus der Antwort
+            answer = response['message']['content'].strip().lower()
+            intent = answer.split("\n")[0].strip()
+            
+            # Validiere den Intent
+            if intent in self.intents:
+                return intent, self.intents[intent]["responses"]
+            return "unknown", ["Entschuldigung, ich verstehe das nicht."]
+            
+        except Exception as e:
+            print_colored(f"\nFehler bei der Ollama-Verbindung: {str(e)}", Fore.RED)
+            return self.recognize_intent(text)  # Fallback auf regex-basierte Erkennung
+
     def recognize_intent(self, text):
         text = text.lower()
         
@@ -102,8 +139,9 @@ def main():
             print_colored("\nAuf Wiedersehen!", Fore.MAGENTA)
             break
             
-        intent, responses = recognizer.recognize_intent(user_input)
-       
+        # Verwende Ollama für die Intent-Erkennung
+        intent, responses = recognizer.recognize_intent_with_ollama(user_input)
+        
         print_colored("\nErkannter Intent:", Fore.GREEN)
         print_colored(intent.capitalize(), Fore.YELLOW)
         
