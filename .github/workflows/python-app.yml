@@ -44,4 +44,5 @@ jobs:
         LABEL: 'Score'
         STATUS: ${{ steps.calculate-score.outputs.SCORE }}
         COLOR: 00EEFF
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         
