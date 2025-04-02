@@ -35,12 +35,13 @@ jobs:
         # exit-zero treats all errors as warnings. The GitHub editor is 127 chars wide
         flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
     - name: Calculate current score
-      run: echo "##[set-output name=data;]$(python main.py | grep 'Score')"
+      id: calculate-score
+      run: echo "SCORE=$(python main.py | grep 'Score')" >> "$GITHUB_OUTPUT"
     - name: Time badge
       uses: RubbaBoy/BYOB@v1.3.0
       with:
         NAME: score
         LABEL: 'Score'
-        STATUS: ${{ steps.date.outputs.data }}
+        STATUS: ${{ steps.calculate-score.outputs.SCORE }}
         COLOR: 00EEFF
         
