@@ -1,4 +1,4 @@
-# Intent Recognition Projekt
+# Intent Recognition Projekt ![](https://byob.yarr.is/Neurospicy-Fibi/Intent-Recognition/score)
 
 Ein Python-Projekt zur Erkennung von Benutzerabsichten aus Texteingaben.
 
