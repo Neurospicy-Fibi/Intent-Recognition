@@ -37,7 +37,7 @@ jobs:
     - name: Calculate current score
       id: calculate-score
       run: echo "SCORE=$(python3 main.py | grep 'Score' | cut -d ' ' -f 2)" >> "$GITHUB_OUTPUT"
-    - name: Time badge
+    - name: Score badge
       uses: RubbaBoy/BYOB@v1.3.0
       with:
         NAME: score
